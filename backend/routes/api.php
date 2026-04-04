@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\V1\Auth\RegisteredUserController;
 use App\Http\Controllers\Api\V1\Auth\SessionController;
+use App\Http\Controllers\Api\V1\Card\CardController;
 use App\Http\Controllers\Api\V1\Category\CategoryController;
 use Illuminate\Support\Facades\Route;
 
@@ -13,6 +14,9 @@ Route::prefix('v1')->group(function() {
         Route::get('/me', [SessionController::class, 'show']);
         Route::post('/logout', [SessionController::class, 'destroy']);
 
-        Route::apiResource('categories', CategoryController::class);
+        Route::apiResources([
+            'categories' => CategoryController::class,
+            'cards' => CardController::class,
+        ]);
     });
 });
