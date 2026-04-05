@@ -21,7 +21,7 @@ return new class extends Migration
             $table->decimal('limit', 10, 2)->nullable();
             $table->unsignedTinyInteger('closing_day')->nullable();
             $table->unsignedTinyInteger('due_day')->nullable();
-            $table->boolean('is_active')->nullable();
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }
