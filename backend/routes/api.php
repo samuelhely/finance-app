@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\V1\Account\AccountController;
 use App\Http\Controllers\Api\V1\Auth\RegisteredUserController;
 use App\Http\Controllers\Api\V1\Auth\SessionController;
 use App\Http\Controllers\Api\V1\Card\CardController;
@@ -16,6 +17,7 @@ Route::prefix('v1')->group(function() {
         Route::post('/logout', [SessionController::class, 'destroy']);
 
         Route::apiResources([
+            'accounts' => AccountController::class,
             'categories' => CategoryController::class,
             'cards' => CardController::class,
             'tags' => TagController::class,
