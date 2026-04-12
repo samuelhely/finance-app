@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\V1\Auth\SessionController;
 use App\Http\Controllers\Api\V1\Card\CardController;
 use App\Http\Controllers\Api\V1\Category\CategoryController;
 use App\Http\Controllers\Api\V1\Tag\TagController;
+use App\Http\Controllers\Api\V1\Transaction\TransactionController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function() {
@@ -21,6 +22,7 @@ Route::prefix('v1')->group(function() {
             'categories' => CategoryController::class,
             'cards' => CardController::class,
             'tags' => TagController::class,
+            'transactions' => TransactionController::class,
         ]);
     });
 });

@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Account;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -18,6 +17,8 @@ return new class extends Migration
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
             $table->string('name');
             $table->timestamps();
+
+            $table->unique(['user_id', 'name']);
         });
     }
 
