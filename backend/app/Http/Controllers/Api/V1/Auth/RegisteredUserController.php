@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class RegisteredUserController extends Controller
 {
-    public function create(Request $request)
+    public function store(Request $request)
     {
         $data = $request->validate([
             'name' => 'required|string|max:255',

@@ -10,7 +10,7 @@ use App\Http\Controllers\Api\V1\Transaction\TransactionController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function() {
-    Route::post('/register', [RegisteredUserController::class, 'create']);
+    Route::post('/register', [RegisteredUserController::class, 'store']);
     Route::post('/login', [SessionController::class, 'create']);
 
     Route::middleware('auth:sanctum')->group(function() {
