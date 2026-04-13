@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api\V1\Tag;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Tag\StoreTagRequest;
+use App\Http\Requests\Tag\UpdateTagRequest;
 use Illuminate\Http\Request;
 
 class TagController extends Controller
@@ -14,13 +16,9 @@ class TagController extends Controller
         return response()->json($tags);
     }
 
-    public function store(Request $request)
+    public function store(StoreTagRequest $request)
     {
-        $data = $request->validate([
-            'name' => 'required|string|max:255',
-        ]);
-
-        $tag = $request->user()->tags()->create($data);
+        $tag = $request->user()->tags()->create($request->validated());
 
         return response()->json($tag, 201);
     }
@@ -32,15 +30,11 @@ class TagController extends Controller
         return response()->json($tag);
     }
 
-    public function update(Request $request, string $id)
+    public function update(UpdateTagRequest $request, string $id)
     {
-        $data = $request->validate([
-            'name' => 'required|string|max:255',
-        ]);
-
         $tag = $request->user()->tags()->findOrFail($id);
 
-        $tag->update($data);
+        $tag->update($request->validated());
 
         return response()->json($tag);
     }

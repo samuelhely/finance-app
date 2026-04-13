@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api\V1\Card;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Card\StoreCardRequest;
+use App\Http\Requests\Card\UpdateCardRequest;
 use Illuminate\Http\Request;
 
 class CardController extends Controller
@@ -14,19 +16,9 @@ class CardController extends Controller
         return response()->json($cards);
     }
 
-    public function store(Request $request)
+    public function store(StoreCardRequest $request)
     {
-        $data = $request->validate([
-            'name' => 'required|string|max:255',
-            'brand' => 'nullable|string|max:255',
-            'last_four_digits' => 'nullable|string|max:4',
-            'limit' => 'nullable|numeric|min:0',
-            'closing_day' => 'nullable|date',
-            'due_day' => 'nullable|date',
-            'is_active' => 'nullable|boolean',
-        ]);
-
-        $card = $request->user()->cards()->create($data);
+        $card = $request->user()->cards()->create($request->validated());
 
         return response()->json($card, 201);
     }
@@ -38,21 +30,11 @@ class CardController extends Controller
         return response()->json($card);
     }
 
-    public function update(Request $request, string $id)
+    public function update(UpdateCardRequest $request, string $id)
     {
-        $data = $request->validate([
-            'name' => 'sometimes|string|max:255',
-            'brand' => 'nullable|string|max:255',
-            'last_four_digits' => 'nullable|string|max:4',
-            'limit' => 'nullable|numeric|min:0',
-            'closing_day' => 'nullable|date',
-            'due_day' => 'nullable|date',
-            'is_active' => 'nullable|boolean',
-        ]);
-
         $card = $request->user()->cards()->findOrFail($id);
 
-        $card->update($data);
+        $card->update($request->validated());
 
         return response()->json($card);
     }

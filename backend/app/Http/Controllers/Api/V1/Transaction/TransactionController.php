@@ -7,6 +7,8 @@ use App\Enums\TransactionSourceType;
 use App\Enums\TransactionStatus;
 use App\Enums\TransactionType;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Transaction\StoreTransactionRequest;
+use App\Http\Requests\Transaction\UpdateTransactionRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
@@ -24,25 +26,9 @@ class TransactionController extends Controller
         return response()->json($transactions);
     }
 
-    public function store(Request $request)
+    public function store(StoreTransactionRequest $request)
     {
-        $data = $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'account_id' => 'required|exists:accounts,id',
-            'category_id' => 'nullable|exists:categories,id',
-            'category_name' => 'nullable|string|max:255',
-            'card_id' => 'nullable|exists:cards,id',
-            'type' => ['required', Rule::enum(TransactionType::class)],
-            'payment_method' => ['required', Rule::enum(TransactionPaymentMethod::class)],
-            'description' => 'required|string|max:255',
-            'notes' => 'nullable|string|max:255',
-            'amount' => 'required|numeric|min:0.01',
-            'date' => 'required|date',
-            'tags' => 'nullable|array',
-            'tags.*' => 'string|max:255',
-            'ocurrence_status' => ['required', Rule::enum(TransactionStatus::class)],
-            'source_type' => ['required', Rule::enum(TransactionSourceType::class)],
-        ]);
+        $data = $request->validated();
 
         $user = $request->user();
         return DB::transaction(function() use ($user, $data) {
@@ -154,25 +140,9 @@ class TransactionController extends Controller
         return response()->json($transaction);
     }
 
-    public function update(Request $request, string $id)
+    public function update(UpdateTransactionRequest $request, string $id)
     {
-        $data = $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'account_id' => 'required|exists:accounts,id',
-            'category_id' => 'nullable|exists:categories,id',
-            'category_name' => 'nullable|string|max:255',
-            'card_id' => 'nullable|exists:cards,id',
-            'type' => ['required', Rule::enum(TransactionType::class)],
-            'payment_method' => ['required', Rule::enum(TransactionPaymentMethod::class)],
-            'description' => 'required|string|max:255',
-            'notes' => 'nullable|string|max:255',
-            'amount' => 'required|numeric|min:0.01',
-            'date' => 'required|date',
-            'tags' => 'nullable|array',
-            'tags.*' => 'string|max:255',
-            'ocurrence_status' => ['required', Rule::enum(TransactionStatus::class)],
-            'source_type' => ['required', Rule::enum(TransactionSourceType::class)],
-        ]);
+        $data = $request->validated();
 
         $user = $request->user();
         $transaction = $user->transactions()->findOrFail($id);
