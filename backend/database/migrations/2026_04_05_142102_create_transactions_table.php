@@ -36,6 +36,7 @@ return new class extends Migration
             $table->enum('ocurrence_status', TransactionStatus::cases());
             $table->enum('source_type', TransactionSourceType::cases());
             $table->timestamps();
+            $table->softDeletes();
 
             // TODO: $table->foreignIdFor('installment_plan_id');
             // TODO: $table->foreignIdFor('recurrence_rule_id');

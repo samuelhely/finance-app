@@ -23,6 +23,9 @@ return new class extends Migration
             $table->unsignedTinyInteger('due_day')->nullable();
             $table->boolean('is_active')->default(true);
             $table->timestamps();
+            $table->softDeletes();
+
+            $table->unique(['user_id']);
         });
     }
 

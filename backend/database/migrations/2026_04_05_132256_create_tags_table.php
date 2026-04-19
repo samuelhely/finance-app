@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
             $table->string('name');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->unique(['user_id', 'name']);
         });
@@ -28,6 +29,7 @@ return new class extends Migration
             $table->foreignIdFor(Tag::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Transaction::class)->constrained()->cascadeOnDelete();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->unique(['tag_id', 'transaction_id']);
         });
