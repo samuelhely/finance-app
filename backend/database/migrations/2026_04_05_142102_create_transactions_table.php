@@ -33,7 +33,7 @@ return new class extends Migration
             $table->decimal('amount', 10, 2);
             $table->date('date');
 
-            $table->enum('ocurrence_status', TransactionStatus::cases());
+            $table->enum('occurrence_status', TransactionStatus::cases());
             $table->enum('source_type', TransactionSourceType::cases());
             $table->timestamps();
             $table->softDeletes();

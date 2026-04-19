@@ -22,7 +22,7 @@ class TransactionResource extends JsonResource
             'notes' => $this->notes,
             'amount' => $this->amount,
             'date' => $this->date,
-            'ocurrence_status' => $this->ocurrence_status,
+            'occurrence_status' => $this->occurrence_status,
             'source_type' => $this->source_type,
             'account' => $this->whenLoaded('account', fn () => new AccountResource($this->account)),
             'category' => $this->whenLoaded('category', fn () => new CategoryResource($this->category)),

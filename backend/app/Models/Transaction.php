@@ -26,7 +26,7 @@ class Transaction extends Model
         'notes',
         'amount',
         'date',
-        'ocurrence_status',
+        'occurrence_status',
         'source_type',
     ];
 
@@ -34,7 +34,7 @@ class Transaction extends Model
         'date' => 'date',
         'type' => TransactionType::class,
         'payment_method' => TransactionPaymentMethod::class,
-        'ocurrence_status' => TransactionStatus::class,
+        'occurrence_status' => TransactionStatus::class,
         'source_type' => TransactionSourceType::class,
     ];
 

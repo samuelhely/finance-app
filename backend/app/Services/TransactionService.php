@@ -46,7 +46,7 @@ class TransactionService
                 'notes' => $data['notes'] ?? null,
                 'amount' => $data['amount'],
                 'date' => $data['date'],
-                'ocurrence_status' => $data['ocurrence_status'],
+                'occurrence_status' => $data['occurrence_status'],
                 'source_type' => $data['source_type'],
             ]);
 
@@ -108,7 +108,7 @@ class TransactionService
                 'notes' => $data['notes'] ?? null,
                 'amount' => $data['amount'] ?? $transaction->amount,
                 'date' => $data['date'] ?? $transaction->date,
-                'ocurrence_status' => $data['ocurrence_status'] ?? $transaction->ocurrence_status,
+                'occurrence_status' => $data['occurrence_status'] ?? $transaction->occurrence_status,
                 'source_type' => $data['source_type'] ?? $transaction->source_type,
             ]);
 
