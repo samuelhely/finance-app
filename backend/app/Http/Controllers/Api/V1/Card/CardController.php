@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Api\V1\Card;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Card\StoreCardRequest;
 use App\Http\Requests\Card\UpdateCardRequest;
+use App\Http\Resources\CardResource;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class CardController extends Controller
 {
@@ -13,21 +15,23 @@ class CardController extends Controller
     {
         $cards = $request->user()->cards()->latest()->get();
 
-        return response()->json($cards);
+        return CardResource::collection($cards);
     }
 
     public function store(StoreCardRequest $request)
     {
         $card = $request->user()->cards()->create($request->validated());
 
-        return response()->json($card, 201);
+        return new CardResource($card)
+            ->response()
+            ->setStatusCode(Response::HTTP_CREATED);
     }
 
     public function show(Request $request, string $id)
     {
         $card = $request->user()->cards()->findOrFail($id);
 
-        return response()->json($card);
+        return new CardResource($card);
     }
 
     public function update(UpdateCardRequest $request, string $id)
@@ -36,7 +40,7 @@ class CardController extends Controller
 
         $card->update($request->validated());
 
-        return response()->json($card);
+        return new CardResource($card);
     }
 
     public function destroy(Request $request, string $id)

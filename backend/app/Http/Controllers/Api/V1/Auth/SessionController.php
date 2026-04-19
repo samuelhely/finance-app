@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -28,14 +29,14 @@ class SessionController extends Controller
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
-            'user' => $user,
+            'user' => new UserResource($user),
             'token' => $token,
         ]);
     }
 
     public function show(Request $request)
     {
-        return response()->json($request->user());
+        return new UserResource($request->user()); // response()->json($request->user());
     }
 
     public function destroy(Request $request)

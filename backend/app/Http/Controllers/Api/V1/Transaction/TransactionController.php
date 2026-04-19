@@ -9,10 +9,12 @@ use App\Enums\TransactionType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Transaction\StoreTransactionRequest;
 use App\Http\Requests\Transaction\UpdateTransactionRequest;
+use App\Http\Resources\TransactionResource;
 use App\Services\TransactionService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
+use Symfony\Component\HttpFoundation\Response;
 
 class TransactionController extends Controller
 {
@@ -29,7 +31,7 @@ class TransactionController extends Controller
                                 ->latest()
                                 ->get();
 
-        return response()->json($transactions);
+        return TransactionResource::collection($transactions);
     }
 
     public function store(StoreTransactionRequest $request)
@@ -40,14 +42,16 @@ class TransactionController extends Controller
 
         $transaction = $this->transactionService->create($user, $data);
 
-        return response()->json($transaction);
+        return new TransactionResource($transaction)
+            ->response()
+            ->setStatusCode(Response::HTTP_CREATED);
     }
 
     public function show(Request $request, string $id)
     {
         $transaction = $request->user()->transactions()->findOrFail($id);
 
-        return response()->json($transaction);
+        return new TransactionResource($transaction);
     }
 
     public function update(UpdateTransactionRequest $request, string $id)
@@ -60,7 +64,7 @@ class TransactionController extends Controller
 
         $this->transactionService->update($user, $transaction, $data);
 
-        return response()->json($transaction);
+        return new TransactionResource($transaction);
     }
 
     public function destroy(Request $request, string $id)

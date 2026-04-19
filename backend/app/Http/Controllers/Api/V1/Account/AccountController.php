@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Api\V1\Account;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\AccountResource;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class AccountController extends Controller
 {
@@ -11,7 +13,7 @@ class AccountController extends Controller
     {
         $accounts = $request->user()->accounts()->latest()->get();
 
-        return response()->json($accounts);
+        return AccountResource::collection($accounts);
     }
 
     public function store(Request $request)
@@ -22,14 +24,16 @@ class AccountController extends Controller
 
         $account = $request->user()->accounts()->create($data);
 
-        return response()->json($account, 201);
+        return new AccountResource($account)
+            ->response()
+            ->setStatusCode(Response::HTTP_CREATED);
     }
 
     public function show(Request $request, string $id)
     {
         $account = $request->user()->accounts()->findOrFail($id);
 
-        return response()->json($account);
+        return new AccountResource($account);
     }
 
     public function update(Request $request, string $id)
@@ -42,7 +46,7 @@ class AccountController extends Controller
 
         $account->update($data);
 
-        return response()->json($account);
+        return new AccountResource($account)->response();
     }
 
     public function destroy(Request $request, string $id)

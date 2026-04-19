@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Api\V1\Category;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Category\StoreCategoryRequest;
 use App\Http\Requests\Category\UpdateCategoryRequest;
+use App\Http\Resources\CategoryResource;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class CategoryController extends Controller
 {
@@ -13,21 +15,23 @@ class CategoryController extends Controller
     {
         $categories = $request->user()->categories()->latest()->get();
 
-        return response()->json($categories);
+        return CategoryResource::collection($categories);
     }
 
     public function store(StoreCategoryRequest $request)
     {
         $category = $request->user()->categories()->create($request->validated());
 
-        return response()->json($category, 201);
+        return new CategoryResource($category)
+            ->response()
+            ->setStatusCode(Response::HTTP_CREATED);
     }
 
     public function show(Request $request, string $id)
     {
         $category = $request->user()->categories()->findOrFail($id);
 
-        return response()->json($category);
+        return new CategoryResource($category);
     }
 
     public function update(UpdateCategoryRequest $request, string $id)
@@ -36,7 +40,7 @@ class CategoryController extends Controller
 
         $category->update($request->validated());
 
-        return response()->json($category);
+        return new CategoryResource($category);
     }
 
     public function destroy(Request $request, string $id)
